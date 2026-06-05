@@ -1,0 +1,53 @@
+:root {
+  // Base Colors (Cream Theme)
+  --jm-bg-0: #faf7f2; // Lighter cream for main background
+  --jm-bg-1: #f3ede2; // Base cream
+  --jm-bg-2: #ffffff; // Pure white for cards
+  
+  // Brand Colors
+  --jm-dark-green: #0d3828;
+  --jm-deep-green: #114a35;
+  --jm-muted-green: #246347;
+  --jm-gold: #c8a96a;
+  --jm-soft-gold: #e3cf9d;
+  
+  // Text Colors
+  --jm-text-1: #1a2421; // Primary text
+  --jm-text-2: #4a5d55; // Secondary text
+  --jm-text-3: #6b8076; // Tertiary text
+
+  // Borders
+  --border-1: rgba(13, 56, 40, 0.08);
+  --border-2: rgba(13, 56, 40, 0.15);
+
+  // Typography
+  --font-heading: 'Outfit', sans-serif;
+  --font-body: 'Inter', -apple-system, sans-serif;
+
+  // Transitions
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-fast: 0.2s var(--ease-out);
+  --transition-normal: 0.4s var(--ease-out);
+  --transition-slow: 0.7s var(--ease-out);
+
+  // Elegant Shadows (Soft and dispersed)
+  --shadow-sm: 0 4px 12px rgba(13, 56, 40, 0.04);
+  --shadow-md: 0 10px 30px rgba(13, 56, 40, 0.06);
+  --shadow-lg: 0 20px 50px rgba(13, 56, 40, 0.08);
+  
+  // Radii
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+  --radius-full: 9999px;
+}
+
+// Mixins
+@mixin mobile {
+  @media (max-width: 768px) { @content; }
+}
+
+@mixin tablet {
+  @media (max-width: 1024px) { @content; }
+}
