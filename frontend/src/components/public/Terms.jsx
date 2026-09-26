@@ -39,9 +39,11 @@ const Terms = () => {
                 <div className={styles.paymentMethods}>
                     <h3>Accepted Payment Methods</h3>
                     <div className={styles.paymentPills}>
-                        <div className={styles.pill}><FaMoneyBillWave /> GCash</div>
-                        <div className={styles.pill}><FaMoneyBillWave /> Maya</div>
-                        <div className={styles.pill}><FaFileSignature /> Bank Transfer</div>
+                        <div className={styles.pill}><FaMoneyCheck /> GCash</div>
+                        <div className={styles.pill}><FaMoneyCheck /> Maya</div>
+                        <div className={styles.pill}><FaCcVisa /> BPI</div>
+                        <div className={styles.pill}><FaCcVisa /> MariBank</div>
+                        <div className={styles.pill}><FaMoneyBillTransfer /> Bank Transfer</div>
                     </div>
                 </div>
             </div>
