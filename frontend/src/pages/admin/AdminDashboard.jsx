@@ -20,14 +20,8 @@ const Overview = () => {
                     .from('proof_transactions')
                     .select('*', { count: 'exact', head: true });
                 
-                const { data: reviews } = await supabase
-                    .from('client_reviews')
-                    .select('rating');
-                    
-                const reviewsCount = reviews?.length || 0;
-                const avgRating = reviewsCount > 0 
-                    ? (reviews.reduce((a, b) => a + b.rating, 0) / reviewsCount).toFixed(1) 
-                    : 0;
+                const reviewsCount = "25 (Static)";
+                const avgRating = "5.0 (Static)";
 
                 // Simple mock for chart data to keep UI consistent
                 const mockChartData = [
@@ -66,7 +60,7 @@ const Overview = () => {
                 </div>
                 <div className={styles.kpiCard}>
                     <div className={styles.kpiTitle}>Average Rating</div>
-                    <div className={styles.kpiValue}>{stats.avgRating} / 5.0</div>
+                    <div className={styles.kpiValue}>{stats.avgRating}</div>
                 </div>
             </div>
 
@@ -326,221 +320,7 @@ const ManageProofs = () => {
     );
 };
 
-const ManageReviews = () => {
-    const [reviews, setReviews] = useState([]);
-    const [clientName, setClientName] = useState('');
-    const [reviewMessage, setReviewMessage] = useState('');
-    const [rating, setRating] = useState(5);
-    const [status, setStatus] = useState('published');
-    const [reviewDate, setReviewDate] = useState(() => {
-        const now = new Date();
-        now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
-        return now.toISOString().slice(0,16);
-    });
-    const [searchQuery, setSearchQuery] = useState('');
-    const [statusFilter, setStatusFilter] = useState('all');
-    const [ratingFilter, setRatingFilter] = useState('all');
-    const [deleteModal, setDeleteModal] = useState({ isOpen: false, id: null });
-    const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const fetchReviews = async () => {
-        try {
-            const { data, error } = await supabase
-                .from('client_reviews')
-                .select('*')
-                .order('created_at', { ascending: false });
-            
-            if (error) throw error;
-            setReviews(data || []);
-        } catch (err) { console.error(err); }
-    };
-
-    useEffect(() => { fetchReviews(); }, []);
-
-    const handleAdd = async (e) => {
-        e.preventDefault();
-        setIsSubmitting(true);
-        try {
-            const { error } = await supabase
-                .from('client_reviews')
-                .insert([{
-                    client_name: clientName,
-                    review_message: reviewMessage,
-                    rating,
-                    status,
-                    review_date: new Date(reviewDate).toISOString()
-                }]);
-
-            if (error) throw error;
-            
-            setClientName('');
-            setReviewMessage('');
-            setRating(5);
-            setStatus('published');
-            const now = new Date();
-            now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
-            setReviewDate(now.toISOString().slice(0,16));
-            fetchReviews();
-            alert('Review added successfully');
-        } catch (err) {
-            console.error(err);
-            alert('Failed to add review');
-        } finally {
-            setIsSubmitting(false);
-        }
-    };
-
-    const confirmDelete = (id) => {
-        setDeleteModal({ isOpen: true, id });
-    };
-
-    const handleDelete = async () => {
-        const id = deleteModal.id;
-        try {
-            const { error } = await supabase
-                .from('client_reviews')
-                .delete()
-                .eq('id', id);
-
-            if (error) throw error;
-
-            setReviews(prev => prev.filter(r => r.id !== id));
-            setDeleteModal({ isOpen: false, id: null });
-        } catch (err) { console.error(err); }
-    };
-
-    const handleToggleStatus = async (id, currentStatus) => {
-        const newStatus = currentStatus === 'published' ? 'draft' : 'published';
-        try {
-            const { error } = await supabase
-                .from('client_reviews')
-                .update({ status: newStatus })
-                .eq('id', id);
-
-            if (error) throw error;
-            fetchReviews();
-        } catch (err) { console.error(err); }
-    };
-
-    return (
-        <section className={styles.section}>
-            <h3><FaStar /> Manage Client Reviews</h3>
-            <form onSubmit={handleAdd} className={styles.adminForm}>
-                <input type="text" placeholder="Client Name" value={clientName} onChange={e => setClientName(e.target.value)} required />
-                <input type="text" placeholder="Review Message" value={reviewMessage} onChange={e => setReviewMessage(e.target.value)} required />
-                <select value={rating} onChange={e => setRating(parseInt(e.target.value))} style={{padding: '0.75rem', borderRadius: '0.5rem', border: '1px solid #e2e8f0'}}>
-                    <option value={5}>5 Stars</option>
-                    <option value={4}>4 Stars</option>
-                    <option value={3}>3 Stars</option>
-                    <option value={2}>2 Stars</option>
-                    <option value={1}>1 Star</option>
-                </select>
-                <select value={status} onChange={e => setStatus(e.target.value)} style={{padding: '0.75rem', borderRadius: '0.5rem', border: '1px solid #e2e8f0'}}>
-                    <option value="published">Published</option>
-                    <option value="draft">Draft</option>
-                </select>
-                <input type="datetime-local" value={reviewDate} onChange={e => setReviewDate(e.target.value)} required style={{padding: '0.75rem', borderRadius: '0.5rem', border: '1px solid #e2e8f0'}} />
-                <button type="submit" disabled={isSubmitting}>{isSubmitting ? 'Adding...' : 'Add Review'}</button>
-            </form>
-
-            <div className={styles.tableControls}>
-                <div className={styles.searchBox}>
-                    <FaSearch className={styles.searchIcon} />
-                    <input 
-                        type="text" 
-                        placeholder="Search by client or message..." 
-                        value={searchQuery}
-                        onChange={e => setSearchQuery(e.target.value)}
-                    />
-                </div>
-                <div className={styles.filterGroup}>
-                    <select value={statusFilter} onChange={e => setStatusFilter(e.target.value)}>
-                        <option value="all">All Statuses</option>
-                        <option value="published">Published</option>
-                        <option value="draft">Draft</option>
-                    </select>
-                    <select value={ratingFilter} onChange={e => setRatingFilter(e.target.value)}>
-                        <option value="all">All Ratings</option>
-                        <option value="5">5 Stars</option>
-                        <option value="4">4 Stars</option>
-                        <option value="3">3 Stars</option>
-                        <option value="2">2 Stars</option>
-                        <option value="1">1 Star</option>
-                    </select>
-                </div>
-            </div>
-
-            <div className={styles.dataTable}>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Client Name</th>
-                            <th>Rating</th>
-                            <th>Status</th>
-                            <th>Date</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {(() => {
-                            const filteredReviews = reviews.filter(review => {
-                                const matchesSearch = review.client_name?.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                                                      review.review_message?.toLowerCase().includes(searchQuery.toLowerCase());
-                                const matchesStatus = statusFilter === 'all' || review.status === statusFilter;
-                                const matchesRating = ratingFilter === 'all' || review.rating.toString() === ratingFilter;
-                                return matchesSearch && matchesStatus && matchesRating;
-                            });
-
-                            if (filteredReviews.length === 0) {
-                                return (
-                                    <tr>
-                                        <td colSpan="5" style={{textAlign: 'center', padding: '3rem', color: '#64748b', fontStyle: 'italic'}}>
-                                            No reviews found matching your filters.
-                                        </td>
-                                    </tr>
-                                );
-                            }
-
-                            return filteredReviews.map(review => {
-                                const date = new Date(review.review_date);
-                                const formattedDate = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true });
-
-                                return (
-                                    <tr key={review.id}>
-                                        <td>{review.client_name}</td>
-                                        <td>{review.rating} / 5</td>
-                                        <td>
-                                            <span style={{
-                                                padding: '4px 8px', 
-                                                borderRadius: '12px', 
-                                                fontSize: '0.8rem',
-                                                fontWeight: 'bold',
-                                                backgroundColor: review.status === 'published' ? '#dcfce7' : '#fef08a',
-                                                color: review.status === 'published' ? '#166534' : '#854d0e',
-                                                cursor: 'pointer'
-                                            }} onClick={() => handleToggleStatus(review.id, review.status)}>
-                                                {review.status.toUpperCase()}
-                                            </span>
-                                        </td>
-                                        <td>{formattedDate}</td>
-                                        <td><button onClick={() => confirmDelete(review.id)} className={styles.deleteBtn}>Delete</button></td>
-                                    </tr>
-                                );
-                            });
-                        })()}
-                    </tbody>
-                </table>
-            </div>
-
-            <ConfirmModal 
-                isOpen={deleteModal.isOpen} 
-                message="Are you sure you want to delete this client review?" 
-                onConfirm={handleDelete} 
-                onCancel={() => setDeleteModal({ isOpen: false, id: null })} 
-            />
-        </section>
-    );
-};
 
 const AdminDashboard = () => {
     const { logout, user } = useContext(AuthContext);
@@ -561,7 +341,6 @@ const AdminDashboard = () => {
                     <ul>
                         <li><a href="#" onClick={(e) => {e.preventDefault(); handleTabClick('overview');}} className={activeTab === 'overview' ? styles.active : ''}><FaTachometerAlt /> Overview</a></li>
                         <li><a href="#" onClick={(e) => {e.preventDefault(); handleTabClick('proofs');}} className={activeTab === 'proofs' ? styles.active : ''}><FaImage /> Proofs</a></li>
-                        <li><a href="#" onClick={(e) => {e.preventDefault(); handleTabClick('reviews');}} className={activeTab === 'reviews' ? styles.active : ''}><FaStar /> Reviews</a></li>
                         <li><a href="#" onClick={(e) => {e.preventDefault(); handleTabClick('profile');}} className={activeTab === 'profile' ? styles.active : ''}><FaUser /> Profile</a></li>
                         <li><a href="#" onClick={(e) => {e.preventDefault(); handleTabClick('settings');}} className={activeTab === 'settings' ? styles.active : ''}><FaCog /> Settings</a></li>
                     </ul>
@@ -584,7 +363,6 @@ const AdminDashboard = () => {
                     {activeTab === 'overview' && <Overview />}
                     {activeTab === 'proofs' && <ManageProofs />}
                     {activeTab === 'profile' && <Profile user={user} />}
-                    {activeTab === 'reviews' && <ManageReviews />}
                     {activeTab === 'settings' && (
                          <section className={styles.section}>
                             <h3><FaCog /> Website Settings</h3>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FaSearchPlus, FaFolderOpen, FaSpinner } from 'react-icons/fa';
 import { supabase } from '../../services/supabaseClient';
+import { staticProofs } from '../../data/staticProofs';
 import styles from './Public.module.scss';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination } from 'swiper/modules';
@@ -23,7 +24,9 @@ const Proofs = () => {
                 
                 if (error) throw error;
                 
-                setProofs(data || []);
+                const fetchedProofs = data || [];
+                const allProofs = [...staticProofs, ...fetchedProofs];
+                setProofs(allProofs);
             } catch (err) {
                 console.error('Failed to load proofs:', err);
             } finally {
@@ -80,10 +83,15 @@ const Proofs = () => {
                             style={{ paddingBottom: '3rem' }}
                         >
                             {proofs.map(proof => {
-                                const date = new Date(proof.created_at);
-                                const timePart = date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
-                                const datePart = date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
-                                const formattedDate = `${timePart} - ${datePart}`;
+                                let formattedDate;
+                                if (proof.isStatic) {
+                                    formattedDate = 'Available proof';
+                                } else {
+                                    const date = new Date(proof.created_at);
+                                    const timePart = date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+                                    const datePart = date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+                                    formattedDate = `${timePart} - ${datePart}`;
+                                }
 
                                 return (
                                     <SwiperSlide key={proof.id}>
