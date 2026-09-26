@@ -21,7 +21,7 @@ export const staticReviews = [
     id: "review-003",
     clientName: "Sheila Grace Villarin",
     languageType: "taglish",
-    reviewMessage: "Super thankful po talaga kami sa’yo. 🤍 Big help ka po sa aming mga graduating students dahil sobrang bilis at smooth ng transaction, plus napaka-ayos at dali mong kausap. Hindi lang po quality ang service mo, ramdam din namin yung patience at kindness mo sa bawat concern namin. Nakakagaan po ng loob makipag-coordinate sa’yo lalo na sa dami ng inaasikaso namin ngayon.\n\nHighly recommended po talaga! Deserve na deserve mo po ang mas marami pang clients because of your excellent service and good communication. Thank you so much again for helping us during this important season of our lives. 🫶\n\nSuper legit po talagaaaa! Thank you po ulit!",
+    reviewMessage: "Super thankful po talaga kami sa’yo. 🤍 Big help ka po sa aming mga graduating students dahil sobrang bilis at smooth ng transaction, plus napaka-ayos at dali mong kausap. 🫶\n\nSuper legit po talagaaaa! Thank you po ulit!",
     rating: 5,
     dateLabel: "Client feedback",
     isStatic: true
