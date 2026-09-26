@@ -4,7 +4,7 @@ export const staticProofs = [
     type: 'static',
     title: 'Proof of Transaction',
     caption: 'Selected proof shared for transparency.',
-    image_url: '/assets/proofs/1.jpg',
+    image_url: '/assets/proofs/transaction-proof-1.jpg',
     removable: false,
     isStatic: true
   },
@@ -13,7 +13,7 @@ export const staticProofs = [
     type: 'static',
     title: 'Client Transaction Proof',
     caption: 'Selected proof shared for transparency.',
-    image_url: '/assets/proofs/2.jpg',
+    image_url: '/assets/proofs/transaction-proof-2.jpg',
     removable: false,
     isStatic: true
   },
@@ -22,7 +22,7 @@ export const staticProofs = [
     type: 'static',
     title: 'Verified Transaction',
     caption: 'Selected proof shared for transparency.',
-    image_url: '/assets/proofs/3.jpg',
+    image_url: '/assets/proofs/transaction-proof-3.jpg',
     removable: false,
     isStatic: true
   },
@@ -31,7 +31,7 @@ export const staticProofs = [
     type: 'static',
     title: 'Proof of Transaction',
     caption: 'Selected proof shared for transparency.',
-    image_url: '/assets/proofs/4.jpg',
+    image_url: '/assets/proofs/transaction-proof-4.jpg',
     removable: false,
     isStatic: true
   },
@@ -40,7 +40,7 @@ export const staticProofs = [
     type: 'static',
     title: 'Client Transaction Proof',
     caption: 'Selected proof shared for transparency.',
-    image_url: '/assets/proofs/5.jpg',
+    image_url: '/assets/proofs/transaction-proof-5.jpg',
     removable: false,
     isStatic: true
   },
@@ -49,7 +49,7 @@ export const staticProofs = [
     type: 'static',
     title: 'Verified Transaction',
     caption: 'Selected proof shared for transparency.',
-    image_url: '/assets/proofs/6.jpg',
+    image_url: '/assets/proofs/transaction-proof-6.jpg',
     removable: false,
     isStatic: true
   }
