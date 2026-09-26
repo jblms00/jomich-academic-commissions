@@ -29,6 +29,7 @@ const Proofs = () => {
                 setProofs(allProofs);
             } catch (err) {
                 console.error('Failed to load proofs:', err);
+                setProofs([...staticProofs]);
             } finally {
                 setLoading(false);
             }

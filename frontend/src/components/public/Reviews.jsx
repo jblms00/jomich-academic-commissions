@@ -33,8 +33,8 @@ const Reviews = () => {
                             spaceBetween={30}
                             slidesPerView={1}
                             breakpoints={{
-                                768: { slidesPerView: 2 },
-                                1024: { slidesPerView: 2 }
+                                768: { slidesPerView: 3 },
+                                1024: { slidesPerView: 5 }
                             }}
                             autoplay={{ delay: 4000, disableOnInteraction: false }}
                             pagination={{ clickable: true }}
@@ -50,10 +50,10 @@ const Reviews = () => {
                                             <div className={styles.stars}>
                                                 {renderStars(review.rating)}
                                             </div>
-                                            <p className={styles.reviewMessage}>"{review.review_message}"</p>
+                                            <p className={styles.reviewMessage}>"{review.reviewMessage}"</p>
                                             <div className={styles.reviewFooter}>
                                                 <div>
-                                                    <h4>{review.client_name}</h4>
+                                                    <h4>{review.clientName}</h4>
                                                     <div className={styles.date}>{formattedDate}</div>
                                                 </div>
                                             </div>
