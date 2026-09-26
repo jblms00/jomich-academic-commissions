@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaFileSignature, FaMoneyBillWave } from 'react-icons/fa';
+import { FaMoneyCheck, FaCcVisa, FaMoneyBillTransfer } from 'react-icons/fa';
 import styles from './Public.module.scss';
 
 const Terms = () => {
