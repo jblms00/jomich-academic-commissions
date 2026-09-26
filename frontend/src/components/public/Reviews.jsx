@@ -50,7 +50,7 @@ const Reviews = () => {
                                             <div className={styles.stars}>
                                                 {renderStars(review.rating)}
                                             </div>
-                                            <p className={styles.reviewMessage}>"{review.reviewMessage}"</p>
+                                            <p className={styles.reviewMessage} style={{ whiteSpace: 'pre-line' }}>"{review.reviewMessage}"</p>
                                             <div className={styles.reviewFooter}>
                                                 <div>
                                                     <h4>{review.clientName}</h4>
